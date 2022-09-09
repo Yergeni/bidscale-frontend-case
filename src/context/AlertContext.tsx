@@ -30,7 +30,7 @@ type RemoveAllAlertAction = {
 type AlertAction = AddAlertAction | RemoveAlertAction | RemoveAllAlertAction;
 
 export const initialState: AlertType[] = [];
-const autoDismiss = 10000; // 10 seconds
+const autoDismiss = 10000; // 10 seconds per requirement
 
 export function alertReducer(state: AlertType[], action: AlertAction) {
 	switch (action.type) {
@@ -68,23 +68,6 @@ type AlertProviderProps = {
 export const AlertProvider = ({ children }: AlertProviderProps) => {
 	const [alerts, alertDispatch] = useReducer(alertReducer, initialState);
 	const alertData = { alerts, alertDispatch };
-
-	/* Will remove from top to bottom (queue FIFO) */
-	// TODO: look for better ways to acomplish auto-remove when 'timeLimit'
-	useEffect(() => {
-		if (alerts.length > 0) {
-			const timer = setTimeout(
-				() =>
-					alertDispatch({
-						type: REMOVE,
-						payload: { id: alerts[0].id },
-					}),
-				alerts[0].timeLimit
-			);
-			return () => clearTimeout(timer);
-		}
-		// eslint-disable-next-line
-	}, [alerts[0]]);
 
 	return (
 		<AlertContext.Provider value={alertData}>
