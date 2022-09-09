@@ -2,7 +2,6 @@ import React, {
 	createContext,
 	Dispatch,
 	useContext,
-	useEffect,
 	useReducer,
 } from "react";
 import { createPortal } from "react-dom";
