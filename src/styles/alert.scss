@@ -1,0 +1,17 @@
+.alert-container {
+	position: fixed;
+	padding: 1rem;
+	top: 50px;
+	right: 10px;
+	width: 300px;
+	max-height: 90vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	z-index: 1;
+  // Hidde/Remove the scrollbar
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	scrollbar-width: none; /* Firefox */
+	&::-webkit-scrollbar {
+		display: none; /* Safari and Chrome */
+	}
+}
