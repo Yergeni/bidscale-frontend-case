@@ -83,6 +83,7 @@ export const AlertProvider = ({ children }: AlertProviderProps) => {
 			);
 			return () => clearTimeout(timer);
 		}
+		// eslint-disable-next-line
 	}, [alerts[0]]);
 
 	return (

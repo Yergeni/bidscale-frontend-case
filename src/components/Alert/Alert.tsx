@@ -1,6 +1,6 @@
 import React from "react";
 
-import "styles/alert.scss";
+import "./Alert.styles.scss";
 
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
