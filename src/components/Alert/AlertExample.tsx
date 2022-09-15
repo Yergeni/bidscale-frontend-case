@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
 	Box,
 	Grid,
@@ -12,9 +14,11 @@ import {
 	Slider,
 	Typography,
 } from "@mui/material";
+
 import { AlertType } from "common/types";
-import { ADD, REMOVE_ALL, useAlertContext } from "context/AlertContext";
-import { useState } from "react";
+import { ActionTypes } from "reducers/AlertReducer/AlertReducer.types";
+
+import { useAlertContext } from "context/AlertContext";
 
 export const MUI_ALERT_URL = "https://mui.com/material-ui/react-alert/";
 
@@ -90,10 +94,10 @@ const AlertExample = () => {
 		event.preventDefault();
 
 		alertDispatch({
-			type: ADD,
+			type: ActionTypes.ADD,
 			payload: {
 				...samplePayload,
-				timeLimit: samplePayload.timeLimit * 1000,
+				timeLimit: samplePayload.timeLimit * 1000, // convert to milliseconds
 			},
 		});
 	};
@@ -104,7 +108,7 @@ const AlertExample = () => {
 
 	const handleClearAllAlerts = () => {
 		alertDispatch({
-			type: REMOVE_ALL,
+			type: ActionTypes.REMOVE_ALL,
 		});
 	};
 

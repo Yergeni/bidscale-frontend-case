@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 
+/** Styles */
 import "./Alert.styles.scss";
 
+/** Components */
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Slide from "@mui/material/Slide";
@@ -9,9 +11,12 @@ import MuiAlert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { TransitionGroup } from "react-transition-group";
 
-import { REMOVE, useAlertContext } from "context/AlertContext";
+/** Context */
+import { useAlertContext } from "context/AlertContext";
 
+/** Types */
 import { AlertComponentProps } from "./Alert.types";
+import { ActionTypes } from "reducers/AlertReducer/AlertReducer.types";
 
 function AlertComponent({ alerts }: AlertComponentProps) {
 	const { alertDispatch } = useAlertContext();
@@ -23,7 +28,7 @@ function AlertComponent({ alerts }: AlertComponentProps) {
 			const timer = setTimeout(
 				() =>
 					alertDispatch({
-						type: REMOVE,
+						type: ActionTypes.REMOVE,
 						payload: { id: alerts[0].id },
 					}),
 				alerts[0].timeLimit
@@ -50,7 +55,7 @@ function AlertComponent({ alerts }: AlertComponentProps) {
 								severity={alert.type}
 								onClose={() =>
 									alertDispatch({
-										type: REMOVE,
+										type: ActionTypes.REMOVE,
 										payload: { id: alert.id },
 									})
 								}
