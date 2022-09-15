@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer } from "react";
 
 import {
 	Box,
@@ -15,10 +15,14 @@ import {
 	Typography,
 } from "@mui/material";
 
-import { AlertType } from "common/types";
 import { ActionTypes } from "reducers/AlertReducer/AlertReducer.types";
 
 import { useAlertContext } from "context/AlertContext";
+import {
+	alertExampleReducer,
+	ALERT_SAMPLE_INITIAL_STATE,
+} from "reducers/AlertExampleReducer/AlertExampleReducer";
+import { AlertExampleFormActionTypes } from "reducers/AlertExampleReducer/AlertExampleReducer.types";
 
 export const MUI_ALERT_URL = "https://mui.com/material-ui/react-alert/";
 
@@ -71,22 +75,17 @@ const marks = [
 
 const AlertExample = () => {
 	const { alerts, alertDispatch } = useAlertContext();
-
-	const [samplePayload, setSamplePayload] = useState<AlertType>({
-		id: "",
-		type: "success",
-		text: "This is a success alert",
-		link: MUI_ALERT_URL,
-		alertTitle: "Success",
-		timeLimit: 0,
-	});
+	const [formValues, formDispatch] = useReducer(
+		alertExampleReducer,
+		ALERT_SAMPLE_INITIAL_STATE
+	);
 
 	const handleChange = (event: any) => {
 		const { name, value } = event.target;
 
-		setSamplePayload({
-			...samplePayload,
-			[name]: value,
+		formDispatch({
+			type: AlertExampleFormActionTypes.CHANGE_INPUT,
+			payload: { name, value },
 		});
 	};
 
@@ -96,8 +95,8 @@ const AlertExample = () => {
 		alertDispatch({
 			type: ActionTypes.ADD,
 			payload: {
-				...samplePayload,
-				timeLimit: samplePayload.timeLimit * 1000, // convert to milliseconds
+				...formValues,
+				timeLimit: formValues.timeLimit * 1000, // convert to milliseconds
 			},
 		});
 	};
@@ -124,7 +123,7 @@ const AlertExample = () => {
 							<RadioGroup
 								row
 								name="type"
-								value={samplePayload.type}
+								value={formValues.type}
 								onChange={handleChange}
 							>
 								<FormControlLabel
@@ -154,7 +153,7 @@ const AlertExample = () => {
 							fullWidth
 							label="Alert Title"
 							name="alertTitle"
-							value={samplePayload.alertTitle}
+							value={formValues.alertTitle}
 							onChange={handleChange}
 							variant="outlined"
 						/>
@@ -163,7 +162,7 @@ const AlertExample = () => {
 							fullWidth
 							label="Alert Description"
 							name="text"
-							value={samplePayload.text}
+							value={formValues.text}
 							onChange={handleChange}
 							variant="outlined"
 						/>
@@ -172,7 +171,7 @@ const AlertExample = () => {
 							fullWidth
 							label="Alert Link"
 							name="link"
-							value={samplePayload.link}
+							value={formValues.link}
 							onChange={handleChange}
 							variant="outlined"
 						/>
@@ -188,7 +187,7 @@ const AlertExample = () => {
 								name="timeLimit"
 								valueLabelFormat={renderValueText}
 								aria-label="Alert Time Limit"
-								value={samplePayload.timeLimit}
+								value={formValues.timeLimit}
 								onChange={handleChange}
 								getAriaValueText={renderValueText}
 								valueLabelDisplay="auto"
